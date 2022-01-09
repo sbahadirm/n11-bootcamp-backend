@@ -17,6 +17,6 @@ public class UsrFavoriteList implements BaseEntity {
     @GeneratedValue
     private Long id;
 
-    private Long userId;
+    private Long usrUserId;
     private String name;
 }

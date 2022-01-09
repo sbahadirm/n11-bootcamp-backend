@@ -5,7 +5,7 @@ import com.bahadirmemis.n11.n11bootcamp.usr.enums.EnumUsrUserType;
 import lombok.Data;
 
 @Data
-public class UsrUserSaveRequestDto implements BaseEntity {
+public class UsrUserSaveRequestDto {
 
     private Long id;
     private String name;
