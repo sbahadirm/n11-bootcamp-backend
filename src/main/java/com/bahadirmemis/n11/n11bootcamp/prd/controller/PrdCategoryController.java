@@ -62,4 +62,9 @@ public class PrdCategoryController {
 
         return ResponseEntity.ok(prdCategoryList);
     }
+
+    @DeleteMapping("/{id}")
+    public void delete(Long id){
+        prdCategoryService.delete(id);
+    }
 }

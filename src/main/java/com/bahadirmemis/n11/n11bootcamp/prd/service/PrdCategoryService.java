@@ -37,18 +37,14 @@ public class PrdCategoryService {
 
     public PrdCategorySaveRequestDto getPrdCategoryById(Long id) {
 
-        Optional<PrdCategory> optionalPrdCategory = prdCategoryEntityService.findById(id);
+        PrdCategory prdCategory;
 
-        if (optionalPrdCategory.isPresent()){
-            PrdCategory prdCategory = optionalPrdCategory.get();
+        prdCategory = findPrdCategoryById(id);
 
-            PrdCategorySaveRequestDto prdCategorySaveRequestDto = PrdCategoryMapper.INSTANCE
-                    .convertToPrdCategorySaveRequestDto(prdCategory);
+        PrdCategorySaveRequestDto prdCategorySaveRequestDto = PrdCategoryMapper.INSTANCE
+                .convertToPrdCategorySaveRequestDto(prdCategory);
 
-            return prdCategorySaveRequestDto;
-        } else {
-            throw new RuntimeException("Category not found!");
-        }
+        return prdCategorySaveRequestDto;
     }
 
     public List<PrdCategorySaveRequestDto> findAll() {
@@ -67,5 +63,23 @@ public class PrdCategoryService {
         List<PrdCategoryForMenuDto> prdCategoryForMenuDtoList = prdCategoryConverter.convertToPrdCategoryForMenuDtoList(prdCategoryList);
 
         return prdCategoryForMenuDtoList;
+    }
+
+    public void delete(Long id) {
+
+        PrdCategory prdCategory = findPrdCategoryById(id);
+
+        prdCategoryEntityService.delete(prdCategory);
+    }
+
+    private PrdCategory findPrdCategoryById(Long id) {
+        PrdCategory prdCategory;
+        Optional<PrdCategory> optionalPrdCategory = prdCategoryEntityService.findById(id);
+        if (optionalPrdCategory.isPresent()){
+            prdCategory = optionalPrdCategory.get();
+        } else {
+            throw new RuntimeException("Category not found!");
+        }
+        return prdCategory;
     }
 }

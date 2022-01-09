@@ -45,4 +45,9 @@ public class PrdProductController {
 
         return ResponseEntity.ok(prdProductDtoList);
     }
+
+    @DeleteMapping("/{id}")
+    public void delete(Long id){
+        prdProductService.delete(id);
+    }
 }

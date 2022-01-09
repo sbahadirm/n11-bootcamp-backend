@@ -40,16 +40,11 @@ public class PrdProductService {
 
     public PrdProductDto findById(Long id) {
 
-        Optional<PrdProduct> optionalPrdProduct = prdProductEntityService.findById(id);
+        PrdProduct prdProduct = findPrdProductById(id);
 
-        if (optionalPrdProduct.isPresent()){
-            PrdProduct prdProduct = optionalPrdProduct.get();
-            PrdProductDto prdProductDto = PrdProductMapper.INSTANCE.convertToPrdProductDto(prdProduct);
+        PrdProductDto prdProductDto = PrdProductMapper.INSTANCE.convertToPrdProductDto(prdProduct);
 
-            return prdProductDto;
-        } else {
-            throw new RuntimeException("Product not found!");
-        }
+        return prdProductDto;
     }
 
     public List<PrdProductDto> findAllByCategoryId(Long categoryId) {
@@ -59,5 +54,24 @@ public class PrdProductService {
         List<PrdProductDto> prdProductDtoList = PrdProductMapper.INSTANCE.convertToPrdProductDtoList(prdProductList);
 
         return prdProductDtoList;
+    }
+
+    public void delete(Long id) {
+        PrdProduct prdProduct = findPrdProductById(id);
+
+        prdProductEntityService.delete(prdProduct);
+    }
+
+    private PrdProduct findPrdProductById(Long id) {
+        PrdProduct prdProduct;
+
+        Optional<PrdProduct> optionalPrdProduct = prdProductEntityService.findById(id);
+        if (optionalPrdProduct.isPresent()){
+            prdProduct = optionalPrdProduct.get();
+
+        } else {
+            throw new RuntimeException("Product not found!");
+        }
+        return prdProduct;
     }
 }
