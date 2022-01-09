@@ -1,43 +1,23 @@
 package com.bahadirmemis.n11.n11bootcamp.prd.service;
 
-import com.bahadirmemis.n11.n11bootcamp.gen.entity.BaseEntity;
 import com.bahadirmemis.n11.n11bootcamp.prd.converter.PrdCategoryConverter;
 import com.bahadirmemis.n11.n11bootcamp.prd.converter.PrdCategoryMapper;
 import com.bahadirmemis.n11.n11bootcamp.prd.dto.PrdCategoryForMenuDto;
 import com.bahadirmemis.n11.n11bootcamp.prd.dto.PrdCategorySaveRequestDto;
 import com.bahadirmemis.n11.n11bootcamp.prd.entity.PrdCategory;
-import com.bahadirmemis.n11.n11bootcamp.prd.entity.PrdProduct;
 import com.bahadirmemis.n11.n11bootcamp.prd.service.entityservice.PrdCategoryEntityService;
-import com.bahadirmemis.n11.n11bootcamp.prd.service.entityservice.PrdProductEntityService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class PrdService {
+public class PrdCategoryService {
 
-    private PrdProductEntityService prdProductEntityService;
     private PrdCategoryEntityService prdCategoryEntityService;
     private PrdCategoryConverter prdCategoryConverter;
-
-    public void test(){
-
-        List<PrdProduct> prdProductList = prdProductEntityService.findAll();
-
-        List<PrdCategory> prdCategoryList = prdCategoryEntityService.findAll();
-
-        List<BaseEntity> baseEntityList = new ArrayList<>();
-        baseEntityList.addAll(prdProductList);
-        baseEntityList.addAll(prdCategoryList);
-
-        for (BaseEntity baseEntity : baseEntityList) {
-            System.out.println(baseEntity.getId());
-        }
-    }
 
     public PrdCategory saveCategory(PrdCategorySaveRequestDto prdCategorySaveRequestDto){
 
