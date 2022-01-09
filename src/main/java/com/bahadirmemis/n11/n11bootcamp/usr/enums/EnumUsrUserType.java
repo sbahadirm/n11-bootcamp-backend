@@ -2,8 +2,8 @@ package com.bahadirmemis.n11.n11bootcamp.usr.enums;
 
 public enum EnumUsrUserType {
 
-    USER("User"),
-    VENDOR("Vendor")
+    USER("USER"),
+    VENDOR("VENDOR")
     ;
 
     private String type;
