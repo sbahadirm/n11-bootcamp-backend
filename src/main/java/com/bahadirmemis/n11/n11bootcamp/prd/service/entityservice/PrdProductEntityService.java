@@ -5,6 +5,8 @@ import com.bahadirmemis.n11.n11bootcamp.prd.dao.PrdProductDao;
 import com.bahadirmemis.n11.n11bootcamp.prd.entity.PrdProduct;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PrdProductEntityService extends BaseEntityService<PrdProduct, PrdProductDao> {
 
@@ -12,4 +14,7 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct, PrdPr
         super(dao);
     }
 
+    public List<PrdProduct> findAllByCategoryIdOrderById(Long categoryId){
+        return getDao().findAllByCategoryIdOrderById(categoryId);
+    }
 }
