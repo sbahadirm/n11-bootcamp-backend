@@ -4,6 +4,7 @@ import com.bahadirmemis.n11.n11bootcamp.gen.entity.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,6 +14,7 @@ import javax.persistence.Table;
 public class UsrFavoriteList implements BaseEntity {
 
     @Id
+    @GeneratedValue
     private Long id;
 
     private Long userId;

@@ -5,6 +5,7 @@ import com.bahadirmemis.n11.n11bootcamp.usr.enums.EnumUsrUserType;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 public class UsrUser implements BaseEntity {
 
     @Id
+    @GeneratedValue
     private Long id;
     private String name;
     private String shortName;
