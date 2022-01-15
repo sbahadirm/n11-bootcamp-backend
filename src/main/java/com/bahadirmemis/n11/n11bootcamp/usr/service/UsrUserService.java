@@ -6,6 +6,7 @@ import com.bahadirmemis.n11.n11bootcamp.usr.dto.UsrUserSaveRequestDto;
 import com.bahadirmemis.n11.n11bootcamp.usr.entity.UsrUser;
 import com.bahadirmemis.n11.n11bootcamp.usr.service.entityservice.UsrUserEntityService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.Optional;
 public class UsrUserService {
 
     private final UsrUserEntityService usrUserEntityService;
+
+    private final PasswordEncoder passwordEncoder;
 
     public List<UsrUserDto> findAll() {
 
@@ -50,7 +53,13 @@ public class UsrUserService {
 
     public UsrUserDto save(UsrUserSaveRequestDto usrUserSaveRequestDto) {
 
+        validateUserRequest(usrUserSaveRequestDto.getUsername());
+
         UsrUser usrUser = UsrUserMapper.INSTANCE.convertToUsrUserSaveRequestDto(usrUserSaveRequestDto);
+
+        String encodedPassword = passwordEncoder.encode(usrUser.getPassword());
+
+        usrUser.setPassword(encodedPassword);
 
         usrUser = usrUserEntityService.save(usrUser);
 
@@ -76,5 +85,15 @@ public class UsrUserService {
             throw new RuntimeException("User not found!");
         }
         return usrUser;
+    }
+
+
+    public void validateUserRequest(String username) {
+
+        UsrUser user = usrUserEntityService.findByUsername(username);
+
+        if (user != null){
+            throw new RuntimeException("Username already in use");
+        }
     }
 }

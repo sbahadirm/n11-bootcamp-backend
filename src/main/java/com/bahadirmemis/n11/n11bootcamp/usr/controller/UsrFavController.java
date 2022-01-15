@@ -61,7 +61,7 @@ public class UsrFavController {
     }
 
     @GetMapping("/{favListId}/products")
-    public ResponseEntity getAllProductsByFavListId(Long favListId){
+    public ResponseEntity getAllProductsByFavListId(@PathVariable Long favListId){
 
         List<UsrFavoriteProductDetailDto> usrFavoriteProductDetailDtoList =
                 usrUserFavoriteListService.getAllProductsByFavListId(favListId);
