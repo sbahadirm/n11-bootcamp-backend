@@ -1,10 +1,12 @@
 package com.bahadirmemis.n11.n11bootcamp.usr.service;
 
+import com.bahadirmemis.n11.n11bootcamp.usr.converter.UsrFavoriteProductMapper;
 import com.bahadirmemis.n11.n11bootcamp.usr.converter.UsrUserFavoriteListMapper;
-import com.bahadirmemis.n11.n11bootcamp.usr.dto.UsrFavoriteListDto;
-import com.bahadirmemis.n11.n11bootcamp.usr.dto.UsrFavoriteListSaveRequestDto;
+import com.bahadirmemis.n11.n11bootcamp.usr.dto.*;
 import com.bahadirmemis.n11.n11bootcamp.usr.entity.UsrFavoriteList;
+import com.bahadirmemis.n11.n11bootcamp.usr.entity.UsrFavoriteProduct;
 import com.bahadirmemis.n11.n11bootcamp.usr.service.entityservice.UsrFavoriteListEntityService;
+import com.bahadirmemis.n11.n11bootcamp.usr.service.entityservice.UsrFavoriteProductEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import java.util.Optional;
 public class UsrUserFavoriteListService {
 
     private final UsrFavoriteListEntityService usrFavoriteListEntityService;
+
+    private final UsrFavoriteProductEntityService usrFavoriteProductEntityService;
 
     public List<UsrFavoriteListDto> findAll() {
 
@@ -35,9 +39,17 @@ public class UsrUserFavoriteListService {
         return usrFavoriteListDto;
     }
 
-    public List<UsrFavoriteListDto> findAllUsrUserFavoriteListByUsername(Long userId) {
+    public List<UsrFavoriteListDto> findAllUsrUserFavoriteListByUserId(Long userId) {
 
         List<UsrFavoriteList> usrFavoriteListList = usrFavoriteListEntityService.findAllByUsrUserIdOrderById(userId);
+
+        List<UsrFavoriteListDto> usrFavoriteListDtoList = UsrUserFavoriteListMapper.INSTANCE.convertToUsrFavoriteListDtoList(usrFavoriteListList);
+
+        return usrFavoriteListDtoList;
+    }
+
+    public List<UsrFavoriteListDto> findAllUsrUserFavoriteListDtoByUsername(String username) {
+        List<UsrFavoriteList> usrFavoriteListList = usrFavoriteListEntityService.findAllUsrFavoriteListByUsername(username);
 
         List<UsrFavoriteListDto> usrFavoriteListDtoList = UsrUserFavoriteListMapper.INSTANCE.convertToUsrFavoriteListDtoList(usrFavoriteListList);
 
@@ -72,5 +84,43 @@ public class UsrUserFavoriteListService {
             throw new RuntimeException("Favorite list not found!");
         }
         return usrFavoriteList;
+    }
+
+    private UsrFavoriteProduct findUsrFavoriteProductById(Long id) {
+        Optional<UsrFavoriteProduct> favoriteProductOptional = usrFavoriteProductEntityService.findById(id);
+
+        UsrFavoriteProduct usrFavoriteProduct;
+        if (favoriteProductOptional.isPresent()){
+            usrFavoriteProduct = favoriteProductOptional.get();
+        } else {
+            throw new RuntimeException("Favorite list not found!");
+        }
+        return usrFavoriteProduct;
+    }
+
+    public void removeProductToList(Long id) {
+
+        UsrFavoriteProduct usrFavoriteProduct = findUsrFavoriteProductById(id);
+
+        usrFavoriteProductEntityService.delete(usrFavoriteProduct);
+    }
+
+    public UsrFavoriteProductDto addProductToList(UsrFavoriteProductSaveRequestDto usrFavoriteProductSaveRequestDto) {
+
+        UsrFavoriteProduct usrFavoriteProduct = UsrFavoriteProductMapper.INSTANCE.convertToUsrFavoriteProduct
+                (usrFavoriteProductSaveRequestDto);
+
+        usrFavoriteProduct = usrFavoriteProductEntityService.save(usrFavoriteProduct);
+
+        UsrFavoriteProductDto usrFavoriteProductDto = UsrFavoriteProductMapper.INSTANCE.convertToUsrFavoriteProductDto(usrFavoriteProduct);
+
+        return usrFavoriteProductDto;
+    }
+
+    public List<UsrFavoriteProductDetailDto> getAllProductsByFavListId(Long favListId) {
+        List<UsrFavoriteProductDetailDto> usrFavoriteProductDetailDtoList = usrFavoriteProductEntityService
+                .findAllUsrFavoriteProductDetailDtoByFavListId(favListId);
+
+        return usrFavoriteProductDetailDtoList;
     }
 }

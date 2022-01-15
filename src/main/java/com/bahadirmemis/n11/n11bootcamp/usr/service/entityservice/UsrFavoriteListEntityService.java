@@ -3,6 +3,7 @@ package com.bahadirmemis.n11.n11bootcamp.usr.service.entityservice;
 import com.bahadirmemis.n11.n11bootcamp.gen.service.BaseEntityService;
 import com.bahadirmemis.n11.n11bootcamp.usr.dao.UsrFavoriteListDao;
 import com.bahadirmemis.n11.n11bootcamp.usr.entity.UsrFavoriteList;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,5 +17,9 @@ public class UsrFavoriteListEntityService extends BaseEntityService<UsrFavoriteL
 
     public List<UsrFavoriteList> findAllByUsrUserIdOrderById(Long userId){
         return getDao().findAllByUsrUserIdOrderById(userId);
+    }
+
+    public List<UsrFavoriteList> findAllUsrFavoriteListByUsername(String username){
+        return getDao().findAllUsrFavoriteListByUsername(username);
     }
 }
