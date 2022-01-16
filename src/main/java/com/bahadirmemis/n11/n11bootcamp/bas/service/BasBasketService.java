@@ -10,13 +10,11 @@ import com.bahadirmemis.n11.n11bootcamp.bas.entity.BasBasketProduct;
 import com.bahadirmemis.n11.n11bootcamp.bas.service.entityservice.BasBasketEntityService;
 import com.bahadirmemis.n11.n11bootcamp.bas.service.entityservice.BasBasketProductEntityService;
 import com.bahadirmemis.n11.n11bootcamp.prd.dto.PrdProductSaveRequestDto;
-import com.bahadirmemis.n11.n11bootcamp.sec.jwt.security.JwtUserDetails;
-import com.bahadirmemis.n11.n11bootcamp.usr.entity.UsrUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +26,7 @@ public class BasBasketService {
 
     public BasBasketDto getBasBasketById(Long id) {
 
-        BasBasket basBasket = findBasBasketById(id);
+        BasBasket basBasket = basBasketEntityService.findBasBasketById(id);
 
         BasBasketDto basBasketDto = BasBasketMapper.INSTANCE.convertToBasBasketDto(basBasket);
 
@@ -52,35 +50,55 @@ public class BasBasketService {
         return list;
     }
 
-    public BasBasketProductDetailDto getAllProductsByUsername(String username) {
-        return null;
+    public List<BasBasketProductDetailDto> getAllProductsByUsername(String username) {
+        List<BasBasketProduct> basBasketProductList = basBasketProductEntityService.findAllByUsernameOrderById(username);
+
+        List<BasBasketProductDetailDto> list = basBasketProductConverter.convertToBasBasketProductDetailDtoList(basBasketProductList);
+
+        return list;
     }
 
     public BasBasketDto createBasket(BasBasketSaveRequestDto basBasketSaveRequestDto) {
-        return null;
+
+        BasBasket basBasket = BasBasketMapper.INSTANCE.convertToBasBasket(basBasketSaveRequestDto);
+
+        basBasket = basBasketEntityService.save(basBasket);
+
+        BasBasketDto basBasketDto = BasBasketMapper.INSTANCE.convertToBasBasketDto(basBasket);
+
+        return basBasketDto;
     }
 
     public void deleteBasket(Long id) {
+        BasBasket basBasket = basBasketEntityService.findBasBasketById(id);
 
+        basBasketEntityService.delete(basBasket);
     }
 
     public BasBasketProductDetailDto addProductToBasketByUsername(String username, PrdProductSaveRequestDto prdProductSaveRequestDto) {
-        return null;
+
+        BasBasket basBasket = basBasketEntityService.findBasBasketByUsername(username);
+
+        BasBasketProduct basBasketProduct = new BasBasketProduct();
+        basBasketProduct.setBasBasketId(basBasket.getId());
+        basBasketProduct.setPrdProductId(prdProductSaveRequestDto.getId());
+        basBasketProduct.setProductPrice(prdProductSaveRequestDto.getPrice());
+        basBasketProduct.setProductDiscount(prdProductSaveRequestDto.getAdditionalDiscount());
+        basBasketProduct.setShippingCost(BigDecimal.ZERO);
+
+        basBasketProduct = basBasketProductEntityService.save(basBasketProduct);
+
+        BasBasketProductDetailDto basBasketProductDetailDto = BasBasketMapper.INSTANCE.convertToBasBasketProductDetailDto(basBasketProduct);
+
+        return basBasketProductDetailDto;
     }
 
     public void removeProductFromBasket(Long id) {
 
+        BasBasketProduct basBasketProduct = basBasketProductEntityService.findByBasBasketProductById(id);
+
+        basBasketProductEntityService.delete(basBasketProduct);
     }
 
-    private BasBasket findBasBasketById(Long id) {
-        Optional<BasBasket> optionalBasBasket = basBasketEntityService.findById(id);
 
-        BasBasket basBasket;
-        if (optionalBasBasket.isPresent()){
-            basBasket = optionalBasBasket.get();
-        } else {
-            throw new RuntimeException("Basket not found!");
-        }
-        return basBasket;
-    }
 }

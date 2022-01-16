@@ -5,6 +5,8 @@ import com.bahadirmemis.n11.n11bootcamp.bas.entity.BasBasket;
 import com.bahadirmemis.n11.n11bootcamp.gen.service.BaseEntityService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class BasBasketEntityService extends BaseEntityService<BasBasket, BasBasketDao> {
 
@@ -14,5 +16,17 @@ public class BasBasketEntityService extends BaseEntityService<BasBasket, BasBask
 
     public BasBasket findBasBasketByUsername(String username){
         return getDao().findBasBasketByUsername(username);
+    }
+
+    public BasBasket findBasBasketById(Long id) {
+        Optional<BasBasket> optionalBasBasket = findById(id);
+
+        BasBasket basBasket;
+        if (optionalBasBasket.isPresent()){
+            basBasket = optionalBasBasket.get();
+        } else {
+            throw new RuntimeException("Basket not found!");
+        }
+        return basBasket;
     }
 }

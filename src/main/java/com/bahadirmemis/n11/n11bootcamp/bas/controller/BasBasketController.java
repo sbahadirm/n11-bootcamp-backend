@@ -42,17 +42,17 @@ public class BasBasketController {
     @GetMapping("/{basketId}/products/")
     public ResponseEntity getAllProductsByBasketId(@PathVariable Long basketId){
 
-        BasBasketProductDetailDto basBasketProductDetailDto = basBasketService.getAllProductsByBasketId(basketId);
+        List<BasBasketProductDetailDto> basBasketProductDetailDtoList = basBasketService.getAllProductsByBasketId(basketId);
 
-        return ResponseEntity.ok(basBasketProductDetailDto);
+        return ResponseEntity.ok(basBasketProductDetailDtoList);
     }
 
     @GetMapping("/users/{username}/products/")
     public ResponseEntity getAllProductsByUsername(@PathVariable String username){
 
-        BasBasketProductDetailDto basBasketProductDetailDto = basBasketService.getAllProductsByUsername(username);
+        List<BasBasketProductDetailDto> basBasketProductDetailDtoList = basBasketService.getAllProductsByUsername(username);
 
-        return ResponseEntity.ok(basBasketProductDetailDto);
+        return ResponseEntity.ok(basBasketProductDetailDtoList);
     }
 
 
