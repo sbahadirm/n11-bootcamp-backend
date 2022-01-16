@@ -26,6 +26,14 @@ public class UsrUserController {
         return ResponseEntity.ok(usrUserDtoList);
     }
 
+    @GetMapping("/vendors")
+    public ResponseEntity getAllVendors(){
+
+        List<UsrUserDto> usrUserDtoList = usrUserService.getAllVendors();
+
+        return ResponseEntity.ok(usrUserDtoList);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity getById(@PathVariable Long id){
 

@@ -10,7 +10,7 @@ import java.util.Date;
 public class OrdOrderSaveRequestDto {
 
     private Long id;
-    private Long basBasketId;
+    private String username;
     private BigDecimal paidAmount;
     private String deliveryCompany;
     private String parcelTrackingCode;

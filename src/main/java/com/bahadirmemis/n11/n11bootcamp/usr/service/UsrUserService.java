@@ -4,6 +4,7 @@ import com.bahadirmemis.n11.n11bootcamp.usr.converter.UsrUserMapper;
 import com.bahadirmemis.n11.n11bootcamp.usr.dto.UsrUserDto;
 import com.bahadirmemis.n11.n11bootcamp.usr.dto.UsrUserSaveRequestDto;
 import com.bahadirmemis.n11.n11bootcamp.usr.entity.UsrUser;
+import com.bahadirmemis.n11.n11bootcamp.usr.enums.EnumUsrUserType;
 import com.bahadirmemis.n11.n11bootcamp.usr.service.entityservice.UsrUserEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -81,5 +82,14 @@ public class UsrUserService {
         if (user != null){
             throw new RuntimeException("Username already in use");
         }
+    }
+
+    public List<UsrUserDto> getAllVendors() {
+
+        List<UsrUser> usrUserList = usrUserEntityService.findAllByUsrUserTypeOrderById(EnumUsrUserType.VENDOR);
+
+        List<UsrUserDto> usrUserDtoList = UsrUserMapper.INSTANCE.convertToUsrUserDtoList(usrUserList);
+
+        return usrUserDtoList;
     }
 }
