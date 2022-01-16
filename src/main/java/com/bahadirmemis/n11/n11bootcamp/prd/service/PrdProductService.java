@@ -40,7 +40,7 @@ public class PrdProductService {
 
     public PrdProductDto findById(Long id) {
 
-        PrdProduct prdProduct = findPrdProductById(id);
+        PrdProduct prdProduct = prdProductEntityService.findPrdProductById(id);
 
         PrdProductDto prdProductDto = PrdProductMapper.INSTANCE.convertToPrdProductDto(prdProduct);
 
@@ -57,21 +57,9 @@ public class PrdProductService {
     }
 
     public void delete(Long id) {
-        PrdProduct prdProduct = findPrdProductById(id);
+        PrdProduct prdProduct = prdProductEntityService.findPrdProductById(id);
 
         prdProductEntityService.delete(prdProduct);
     }
 
-    private PrdProduct findPrdProductById(Long id) {
-        PrdProduct prdProduct;
-
-        Optional<PrdProduct> optionalPrdProduct = prdProductEntityService.findById(id);
-        if (optionalPrdProduct.isPresent()){
-            prdProduct = optionalPrdProduct.get();
-
-        } else {
-            throw new RuntimeException("Product not found!");
-        }
-        return prdProduct;
-    }
 }

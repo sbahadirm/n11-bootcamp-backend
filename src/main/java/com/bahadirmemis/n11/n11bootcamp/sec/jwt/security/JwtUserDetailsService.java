@@ -32,7 +32,7 @@ public class JwtUserDetailsService implements UserDetailsService {
             UsrUser usrUser = userOptional.get();
             return JwtUserDetails.create(usrUser);
         } else {
-            throw new RuntimeException("User nor found!");
+            throw new RuntimeException("User not found!");
         }
     }
 }
