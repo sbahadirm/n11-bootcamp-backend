@@ -38,13 +38,13 @@ public abstract class BaseEntityService<E extends BaseEntity,D extends JpaReposi
     }
 
     public E getById(Long id) {
-        E prdCategory;
-        Optional<E> optionalOrdOrder = findById(id);
-        if (optionalOrdOrder.isPresent()){
-            prdCategory = optionalOrdOrder.get();
+        E entity;
+        Optional<E> optionalEntity = findById(id);
+        if (optionalEntity.isPresent()){
+            entity = optionalEntity.get();
         } else {
             throw new RuntimeException("Item not found!");
         }
-        return prdCategory;
+        return entity;
     }
 }
