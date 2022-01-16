@@ -39,7 +39,7 @@ public class PrdCategoryService {
 
         PrdCategory prdCategory;
 
-        prdCategory = findPrdCategoryById(id);
+        prdCategory = prdCategoryEntityService.getById(id);
 
         PrdCategorySaveRequestDto prdCategorySaveRequestDto = PrdCategoryMapper.INSTANCE
                 .convertToPrdCategorySaveRequestDto(prdCategory);
@@ -67,19 +67,9 @@ public class PrdCategoryService {
 
     public void delete(Long id) {
 
-        PrdCategory prdCategory = findPrdCategoryById(id);
+        PrdCategory prdCategory =prdCategoryEntityService.getById(id);
 
         prdCategoryEntityService.delete(prdCategory);
     }
 
-    private PrdCategory findPrdCategoryById(Long id) {
-        PrdCategory prdCategory;
-        Optional<PrdCategory> optionalPrdCategory = prdCategoryEntityService.findById(id);
-        if (optionalPrdCategory.isPresent()){
-            prdCategory = optionalPrdCategory.get();
-        } else {
-            throw new RuntimeException("Category not found!");
-        }
-        return prdCategory;
-    }
 }

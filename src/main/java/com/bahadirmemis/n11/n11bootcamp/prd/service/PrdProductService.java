@@ -40,7 +40,7 @@ public class PrdProductService {
 
     public PrdProductDto findById(Long id) {
 
-        PrdProduct prdProduct = prdProductEntityService.findPrdProductById(id);
+        PrdProduct prdProduct = prdProductEntityService.getById(id);
 
         PrdProductDto prdProductDto = PrdProductMapper.INSTANCE.convertToPrdProductDto(prdProduct);
 
@@ -57,7 +57,7 @@ public class PrdProductService {
     }
 
     public void delete(Long id) {
-        PrdProduct prdProduct = prdProductEntityService.findPrdProductById(id);
+        PrdProduct prdProduct = prdProductEntityService.getById(id);
 
         prdProductEntityService.delete(prdProduct);
     }

@@ -35,7 +35,7 @@ public class BasBasketProductConverter {
 
             Long prdProductId = basBasketProduct.getPrdProductId();
 
-            PrdProduct prdProduct = prdProductEntityService.findPrdProductById(prdProductId);
+            PrdProduct prdProduct = prdProductEntityService.getById(prdProductId);
 
             basBasketProductDetailDto.setId(basBasketProduct.getId());
             basBasketProductDetailDto.setBasBasketId(basBasketProduct.getBasBasketId());

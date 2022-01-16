@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +30,7 @@ public class UsrUserService {
 
     public UsrUserDto findById(Long id) {
 
-        UsrUser usrUser = findUsrUserById(id);
+        UsrUser usrUser = usrUserEntityService.getById(id);
 
         UsrUserDto usrUserDto = UsrUserMapper.INSTANCE.convertToUsrUserDtoList(usrUser);
 
@@ -70,23 +69,10 @@ public class UsrUserService {
 
     public void delete(Long id) {
 
-        UsrUser usrUser = findUsrUserById(id);
+        UsrUser usrUser = usrUserEntityService.getById(id);
 
         usrUserEntityService.delete(usrUser);
     }
-
-    private UsrUser findUsrUserById(Long id) {
-        Optional<UsrUser> optionalUsrUser = usrUserEntityService.findById(id);
-
-        UsrUser usrUser;
-        if (optionalUsrUser.isPresent()){
-            usrUser = optionalUsrUser.get();
-        } else {
-            throw new RuntimeException("User not found!");
-        }
-        return usrUser;
-    }
-
 
     public void validateUserRequest(String username) {
 

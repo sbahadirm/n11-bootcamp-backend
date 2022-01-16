@@ -26,7 +26,7 @@ public class BasBasketService {
 
     public BasBasketDto getBasBasketById(Long id) {
 
-        BasBasket basBasket = basBasketEntityService.findBasBasketById(id);
+        BasBasket basBasket = basBasketEntityService.getById(id);
 
         BasBasketDto basBasketDto = BasBasketMapper.INSTANCE.convertToBasBasketDto(basBasket);
 
@@ -70,7 +70,7 @@ public class BasBasketService {
     }
 
     public void deleteBasket(Long id) {
-        BasBasket basBasket = basBasketEntityService.findBasBasketById(id);
+        BasBasket basBasket = basBasketEntityService.getById(id);
 
         basBasketEntityService.delete(basBasket);
     }
@@ -95,7 +95,7 @@ public class BasBasketService {
 
     public void removeProductFromBasket(Long id) {
 
-        BasBasketProduct basBasketProduct = basBasketProductEntityService.findByBasBasketProductById(id);
+        BasBasketProduct basBasketProduct = basBasketProductEntityService.getById(id);
 
         basBasketProductEntityService.delete(basBasketProduct);
     }

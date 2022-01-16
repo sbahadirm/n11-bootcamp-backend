@@ -23,15 +23,4 @@ public class BasBasketProductEntityService extends BaseEntityService<BasBasketPr
         return getDao().findAllByUsernameOrderById(username);
     }
 
-    public BasBasketProduct findByBasBasketProductById(Long id) {
-        Optional<BasBasketProduct> productOptional = findById(id);
-
-        BasBasketProduct basBasketProduct;
-        if (productOptional.isPresent()){
-            basBasketProduct = productOptional.get();
-        } else {
-            throw new RuntimeException("Basket Product Not Found!");
-        }
-        return basBasketProduct;
-    }
 }

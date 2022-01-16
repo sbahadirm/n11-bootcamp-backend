@@ -32,7 +32,7 @@ public class UsrUserFavoriteListService {
 
     public UsrFavoriteListDto findById(Long id) {
 
-        UsrFavoriteList usrFavoriteList = findUsrFavoriteListById(id);
+        UsrFavoriteList usrFavoriteList = usrFavoriteListEntityService.getById(id);
 
         UsrFavoriteListDto usrFavoriteListDto = UsrUserFavoriteListMapper.INSTANCE.convertToUsrFavoriteListDto(usrFavoriteList);
 
@@ -69,38 +69,14 @@ public class UsrUserFavoriteListService {
 
     public void delete(Long id) {
 
-        UsrFavoriteList usrFavoriteList = findUsrFavoriteListById(id);
+        UsrFavoriteList usrFavoriteList = usrFavoriteListEntityService.getById(id);
 
         usrFavoriteListEntityService.delete(usrFavoriteList);
     }
 
-    private UsrFavoriteList findUsrFavoriteListById(Long id) {
-        Optional<UsrFavoriteList> favoriteListOptional = usrFavoriteListEntityService.findById(id);
-
-        UsrFavoriteList usrFavoriteList;
-        if (favoriteListOptional.isPresent()){
-            usrFavoriteList = favoriteListOptional.get();
-        } else {
-            throw new RuntimeException("Favorite list not found!");
-        }
-        return usrFavoriteList;
-    }
-
-    private UsrFavoriteProduct findUsrFavoriteProductById(Long id) {
-        Optional<UsrFavoriteProduct> favoriteProductOptional = usrFavoriteProductEntityService.findById(id);
-
-        UsrFavoriteProduct usrFavoriteProduct;
-        if (favoriteProductOptional.isPresent()){
-            usrFavoriteProduct = favoriteProductOptional.get();
-        } else {
-            throw new RuntimeException("Favorite list not found!");
-        }
-        return usrFavoriteProduct;
-    }
-
     public void removeProductToList(Long id) {
 
-        UsrFavoriteProduct usrFavoriteProduct = findUsrFavoriteProductById(id);
+        UsrFavoriteProduct usrFavoriteProduct = usrFavoriteProductEntityService.getById(id);
 
         usrFavoriteProductEntityService.delete(usrFavoriteProduct);
     }

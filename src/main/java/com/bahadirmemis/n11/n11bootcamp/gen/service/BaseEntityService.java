@@ -1,6 +1,7 @@
 package com.bahadirmemis.n11.n11bootcamp.gen.service;
 
 import com.bahadirmemis.n11.n11bootcamp.gen.entity.BaseEntity;
+import com.bahadirmemis.n11.n11bootcamp.ord.entity.OrdOrder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -34,5 +35,16 @@ public abstract class BaseEntityService<E extends BaseEntity,D extends JpaReposi
 
     public D getDao() {
         return dao;
+    }
+
+    public E getById(Long id) {
+        E prdCategory;
+        Optional<E> optionalOrdOrder = findById(id);
+        if (optionalOrdOrder.isPresent()){
+            prdCategory = optionalOrdOrder.get();
+        } else {
+            throw new RuntimeException("Item not found!");
+        }
+        return prdCategory;
     }
 }

@@ -19,16 +19,4 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct, PrdPr
         return getDao().findAllByCategoryIdOrderById(categoryId);
     }
 
-    public PrdProduct findPrdProductById(Long id) {
-        PrdProduct prdProduct;
-
-        Optional<PrdProduct> optionalPrdProduct = findById(id);
-        if (optionalPrdProduct.isPresent()){
-            prdProduct = optionalPrdProduct.get();
-
-        } else {
-            throw new RuntimeException("Product not found!");
-        }
-        return prdProduct;
-    }
 }

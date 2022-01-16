@@ -18,15 +18,4 @@ public class BasBasketEntityService extends BaseEntityService<BasBasket, BasBask
         return getDao().findBasBasketByUsername(username);
     }
 
-    public BasBasket findBasBasketById(Long id) {
-        Optional<BasBasket> optionalBasBasket = findById(id);
-
-        BasBasket basBasket;
-        if (optionalBasBasket.isPresent()){
-            basBasket = optionalBasBasket.get();
-        } else {
-            throw new RuntimeException("Basket not found!");
-        }
-        return basBasket;
-    }
 }
