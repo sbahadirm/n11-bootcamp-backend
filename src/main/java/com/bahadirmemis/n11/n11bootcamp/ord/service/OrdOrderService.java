@@ -17,12 +17,14 @@ import com.bahadirmemis.n11.n11bootcamp.ord.service.entityservice.OrdOrderProduc
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrdOrderService {
 
     private final OrdOrderEntityService ordOrderEntityService;
