@@ -1,5 +1,6 @@
 package com.bahadirmemis.n11.n11bootcamp.ord.controller;
 
+import com.bahadirmemis.n11.n11bootcamp.ord.dto.OrdOrderDetailDto;
 import com.bahadirmemis.n11.n11bootcamp.ord.dto.OrdOrderSaveRequestDto;
 import com.bahadirmemis.n11.n11bootcamp.ord.entity.OrdOrder;
 import com.bahadirmemis.n11.n11bootcamp.ord.service.OrdOrderService;
@@ -39,6 +40,14 @@ public class OrdOrderController {
         OrdOrderSaveRequestDto ordOrder = ordOrderService.getOrdOrderById(id);
 
         return ResponseEntity.ok(ordOrder);
+    }
+
+    @GetMapping("/users/{username}")
+    public ResponseEntity getOrdOrderByUsername(@PathVariable String username){
+
+        List<OrdOrderDetailDto> ordOrderList = ordOrderService.getOrdOrderByUsername(username);
+
+        return ResponseEntity.ok(ordOrderList);
     }
 
     @GetMapping

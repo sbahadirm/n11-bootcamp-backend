@@ -7,6 +7,8 @@ import com.bahadirmemis.n11.n11bootcamp.gen.enums.EnumGenCounterType;
 import com.bahadirmemis.n11.n11bootcamp.gen.enums.EnumStatus;
 import com.bahadirmemis.n11.n11bootcamp.gen.service.entityservice.GenCounterEntityService;
 import com.bahadirmemis.n11.n11bootcamp.ord.converter.OrdOrderMapper;
+import com.bahadirmemis.n11.n11bootcamp.ord.dto.OrdOrderDetailDto;
+import com.bahadirmemis.n11.n11bootcamp.ord.dto.OrdOrderProductDetailDto;
 import com.bahadirmemis.n11.n11bootcamp.ord.dto.OrdOrderSaveRequestDto;
 import com.bahadirmemis.n11.n11bootcamp.ord.entity.OrdOrder;
 import com.bahadirmemis.n11.n11bootcamp.ord.entity.OrdOrderProduct;
@@ -16,9 +18,8 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -150,4 +151,39 @@ public class OrdOrderService {
     }
 
 
+    public List<OrdOrderDetailDto> getOrdOrderByUsername(String username) {
+
+        List<OrdOrderProductDetailDto> ordOrderProductDetailDtoList = ordOrderProductEntityService
+                .findAllOrdOrderProductDetailDtoListByUsername(username);
+
+        Map<Long, List<OrdOrderProductDetailDto>> orderIdAndProductMap = ordOrderProductDetailDtoList
+                .stream().collect(Collectors.groupingBy(OrdOrderProductDetailDto::getOrdOrderId));
+
+        List<OrdOrderDetailDto> ordOrderDetailDtoList = new ArrayList<>();
+
+        for (Long orderId : orderIdAndProductMap.keySet()) {
+
+            List<OrdOrderProductDetailDto> productDetailDtoList = orderIdAndProductMap.get(orderId);
+
+            OrdOrderProductDetailDto ordOrderProductDetailDto = productDetailDtoList.get(0);
+
+            OrdOrderDetailDto ordOrderDetailDto = new OrdOrderDetailDto();
+            ordOrderDetailDto.setId(ordOrderProductDetailDto.getId());
+            ordOrderDetailDto.setDeliveryDate(ordOrderProductDetailDto.getDeliveryDate());
+            ordOrderDetailDto.setAddressId(ordOrderProductDetailDto.getAddressId());
+            ordOrderDetailDto.setDeliveryCompany(ordOrderProductDetailDto.getDeliveryCompany());
+            ordOrderDetailDto.setDeliveryStatus(ordOrderProductDetailDto.getDeliveryStatus());
+            ordOrderDetailDto.setPaidAmount(ordOrderProductDetailDto.getPaidAmount());
+            ordOrderDetailDto.setParcelTrackingCode(ordOrderProductDetailDto.getParcelTrackingCode());
+            ordOrderDetailDto.setOrderNo(ordOrderProductDetailDto.getOrderNo());
+            ordOrderDetailDto.setOrderDate(ordOrderProductDetailDto.getOrderDate());
+            ordOrderDetailDto.setPrdProductDtoList(productDetailDtoList);
+
+            ordOrderDetailDtoList.add(ordOrderDetailDto);
+        }
+
+        ordOrderDetailDtoList = ordOrderDetailDtoList.stream().sorted(Comparator.comparing(OrdOrderDetailDto::getId).reversed()).collect(Collectors.toList());
+
+        return ordOrderDetailDtoList;
+    }
 }

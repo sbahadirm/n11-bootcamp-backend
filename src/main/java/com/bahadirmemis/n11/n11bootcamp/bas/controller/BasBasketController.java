@@ -70,7 +70,8 @@ public class BasBasketController {
     }
 
     @PostMapping("/users/{username}/products")
-    public ResponseEntity addProductToBasketByUsername(@PathVariable String username, PrdProductSaveRequestDto prdProductSaveRequestDto){
+    public ResponseEntity addProductToBasketByUsername(@PathVariable String username,
+                                                       @RequestBody PrdProductSaveRequestDto prdProductSaveRequestDto){
 
         BasBasketProductDetailDto basBasketProductDetailDto = basBasketService.addProductToBasketByUsername(username, prdProductSaveRequestDto);
 

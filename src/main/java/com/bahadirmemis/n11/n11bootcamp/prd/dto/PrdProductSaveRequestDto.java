@@ -1,10 +1,12 @@
 package com.bahadirmemis.n11.n11bootcamp.prd.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Data
+@AllArgsConstructor
 public class PrdProductSaveRequestDto {
 
     private Long id;
