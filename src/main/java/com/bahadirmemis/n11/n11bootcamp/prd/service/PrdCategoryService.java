@@ -9,8 +9,12 @@ import com.bahadirmemis.n11.n11bootcamp.prd.service.entityservice.PrdCategoryEnt
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -58,9 +62,17 @@ public class PrdCategoryService {
 
     public List<PrdCategoryForMenuDto> findAllForMenu() {
 
-        List<PrdCategory> prdCategoryList = prdCategoryEntityService.findBySuperCategoryId(null);
+        List<PrdCategory> prdCategoryList = prdCategoryEntityService.findAll();
 
-        List<PrdCategoryForMenuDto> prdCategoryForMenuDtoList = prdCategoryConverter.convertToPrdCategoryForMenuDtoList(prdCategoryList);
+        List<PrdCategory> mailMenuList = prdCategoryList.stream()
+                .filter(prdCategory -> prdCategory.getSuperCategoryId() == null)
+                .collect(Collectors.toList());
+
+        Map<Long, List<PrdCategory>> superCategoryIdAndListMap = prdCategoryList.stream()
+                .filter(prdCategory -> prdCategory.getSuperCategoryId() != null)
+                .collect(Collectors.groupingBy(PrdCategory::getSuperCategoryId));
+
+        List<PrdCategoryForMenuDto> prdCategoryForMenuDtoList = prdCategoryConverter.convertToPrdCategoryForMenuDto(superCategoryIdAndListMap, mailMenuList);
 
         return prdCategoryForMenuDtoList;
     }

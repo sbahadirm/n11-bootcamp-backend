@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -15,29 +16,37 @@ public class PrdCategoryConverter {
 
     private PrdCategoryEntityService prdCategoryEntityService;
 
-    public PrdCategoryForMenuDto convertToPrdCategoryForMenuDto(PrdCategory prdCategory){
-
-        PrdCategoryMapper prdCategoryMapper = PrdCategoryMapper.INSTANCE;
-        PrdCategoryForMenuDto prdCategoryForMenuDto = prdCategoryMapper.convertToPrdCategoryForMenuDto(prdCategory);
-
-        List<PrdCategory> subPrdCategoryList = prdCategoryEntityService.findBySuperCategoryId(prdCategory.getId());
-        List<PrdCategoryForMenuDto> subPrdCategoryForMenuDtoList = convertToPrdCategoryForMenuDtoList(subPrdCategoryList);
-
-        prdCategoryForMenuDto.setSubPrdCategoryForMenuDtoList(subPrdCategoryForMenuDtoList);
-
-        return prdCategoryForMenuDto;
-
-    }
-
-    public List<PrdCategoryForMenuDto> convertToPrdCategoryForMenuDtoList(List<PrdCategory> prdCategoryList){
+    public List<PrdCategoryForMenuDto> convertToPrdCategoryForMenuDto(Map<Long, List<PrdCategory>> superCategoryIdAndListMap, List<PrdCategory> mailMenuList) {
 
         List<PrdCategoryForMenuDto> prdCategoryForMenuDtoList = new ArrayList<>();
-        for (PrdCategory prdCategory : prdCategoryList) {
-            PrdCategoryForMenuDto prdCategoryForMenuDto = convertToPrdCategoryForMenuDto(prdCategory);
-            prdCategoryForMenuDtoList.add(prdCategoryForMenuDto);
+
+        if (mailMenuList != null){
+            for (PrdCategory prdCategory : mailMenuList) {
+
+                PrdCategoryForMenuDto prdCategoryForMenuDto = PrdCategoryMapper.INSTANCE.convertToPrdCategoryForMenuDto(prdCategory);
+
+                List<PrdCategory> subCategoryList = getSubCategories(superCategoryIdAndListMap, prdCategory);
+                List<PrdCategoryForMenuDto> subPrdCategoryForMenuDtoList = convertToPrdCategoryForMenuDto(superCategoryIdAndListMap, subCategoryList);
+
+                prdCategoryForMenuDto.setSubPrdCategoryForMenuDtoList(subPrdCategoryForMenuDtoList);
+                prdCategoryForMenuDtoList.add(prdCategoryForMenuDto);
+            }
         }
 
         return prdCategoryForMenuDtoList;
+
     }
 
+    private List<PrdCategory> getSubCategories(Map<Long, List<PrdCategory>> superCategoryIdAndListMap, PrdCategory prdCategory) {
+
+        List<PrdCategory> prdCategoryList = superCategoryIdAndListMap.get(prdCategory.getId());
+
+        if (prdCategoryList != null && !prdCategoryList.isEmpty()){
+            for (PrdCategory eachPrdCategory : prdCategoryList) {
+                getSubCategories(superCategoryIdAndListMap, eachPrdCategory);
+            }
+        }
+
+        return prdCategoryList;
+    }
 }
