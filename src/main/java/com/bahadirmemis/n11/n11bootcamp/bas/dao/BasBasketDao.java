@@ -12,7 +12,8 @@ public interface BasBasketDao extends JpaRepository<BasBasket, Long> {
     @Query(
             " select basBasket from BasBasket basBasket " +
                     " left join UsrUser usrUser on basBasket.usrUserId = usrUser.id " +
-                    " where usrUser.username = :username "
+                    " where usrUser.username = :username " +
+                    " and basBasket.basketStatus = 'ACTIVE' "
     )
     BasBasket findBasBasketByUsername(@Param("username") String username);
 }

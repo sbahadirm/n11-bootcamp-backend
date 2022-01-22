@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class OrdOrderSaveRequestDto {
@@ -17,4 +18,5 @@ public class OrdOrderSaveRequestDto {
     private Long addressId;
     private EnumDeliveryStatus deliveryStatus;
     private Date deliveryDate;
+    private List<Long> basBasketProductIdList;
 }

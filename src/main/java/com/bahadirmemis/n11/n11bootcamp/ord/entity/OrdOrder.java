@@ -21,11 +21,12 @@ public class OrdOrder implements BaseEntity {
     private Long id;
 
     private Long basBasketId;
+    private Date orderDate;
     private BigDecimal paidAmount;
     private String deliveryCompany;
     private String parcelTrackingCode;
     private Long addressId;
     private EnumDeliveryStatus deliveryStatus;
     private Date deliveryDate;
-
+    private Long orderNo;
 }

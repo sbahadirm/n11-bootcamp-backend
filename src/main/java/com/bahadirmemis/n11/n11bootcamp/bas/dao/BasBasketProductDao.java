@@ -18,6 +18,7 @@ public interface BasBasketProductDao extends JpaRepository<BasBasketProduct, Lon
                     " left join BasBasket basBasket on basBasketProduct.basBasketId = basBasket.id " +
                     " left join UsrUser usrUser on basBasket.usrUserId = usrUser.id" +
                     " where usrUser.username = :username " +
+                    " and basBasket.basketStatus = 'ACTIVE' " +
                     " order by basBasketProduct.id "
     )
     List<BasBasketProduct> findAllByUsernameOrderById(@Param("username") String username);
