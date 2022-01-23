@@ -64,15 +64,9 @@ public class PrdCategoryService {
 
         List<PrdCategory> prdCategoryList = prdCategoryEntityService.findAll();
 
-        List<PrdCategory> mailMenuList = prdCategoryList.stream()
-                .filter(prdCategory -> prdCategory.getSuperCategoryId() == null)
-                .collect(Collectors.toList());
+        List<PrdCategoryForMenuDto> prdCategoryForMenuDtoList = prdCategoryConverter.convertToPrdCategoryForMenuDto(prdCategoryList);
 
-        Map<Long, List<PrdCategory>> superCategoryIdAndListMap = prdCategoryList.stream()
-                .filter(prdCategory -> prdCategory.getSuperCategoryId() != null)
-                .collect(Collectors.groupingBy(PrdCategory::getSuperCategoryId));
-
-        List<PrdCategoryForMenuDto> prdCategoryForMenuDtoList = prdCategoryConverter.convertToPrdCategoryForMenuDto(superCategoryIdAndListMap, mailMenuList);
+        prdCategoryForMenuDtoList.remove(0);
 
         return prdCategoryForMenuDtoList;
     }
