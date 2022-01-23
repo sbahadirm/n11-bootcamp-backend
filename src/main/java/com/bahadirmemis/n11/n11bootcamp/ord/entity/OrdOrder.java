@@ -24,6 +24,8 @@ public class OrdOrder implements BaseEntity {
     private String deliveryCompany;
     private String parcelTrackingCode;
     private Long addressId;
+
+    @Enumerated(EnumType.STRING)
     private EnumDeliveryStatus deliveryStatus;
     private Date deliveryDate;
     private Long orderNo;

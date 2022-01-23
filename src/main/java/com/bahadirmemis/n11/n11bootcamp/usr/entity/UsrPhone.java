@@ -19,7 +19,11 @@ public class UsrPhone implements BaseEntity {
 
     private Long userUserId;
     private String number;
+
+    @Enumerated(EnumType.STRING)
     private EnumYesNo isDefault;
+
+    @Enumerated(EnumType.STRING)
     private EnumStatus status;
 
 }

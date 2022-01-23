@@ -19,7 +19,11 @@ public class UsrMail implements BaseEntity {
 
     private Long userUserId;
     private String mailAddress;
+
+    @Enumerated(EnumType.STRING)
     private EnumYesNo isDefault;
+
+    @Enumerated(EnumType.STRING)
     private EnumStatus status;
 
 }

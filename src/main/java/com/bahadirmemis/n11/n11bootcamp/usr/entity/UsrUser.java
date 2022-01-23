@@ -20,5 +20,7 @@ public class UsrUser implements BaseEntity {
     private String username;
     private String password;
     private String imageUrl;
+
+    @Enumerated(EnumType.STRING)
     private EnumUsrUserType usrUserType;
 }
