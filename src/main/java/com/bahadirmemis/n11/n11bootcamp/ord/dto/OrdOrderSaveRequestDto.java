@@ -28,5 +28,7 @@ public class OrdOrderSaveRequestDto {
 
     @Future
     private Date deliveryDate;
+
+    @NotNull
     private List<Long> basBasketProductIdList;
 }
