@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class OrdOrderController {
     private OrdOrderService ordOrderService;
 
     @PostMapping
-    public ResponseEntity<Object> save(@RequestBody OrdOrderSaveRequestDto ordOrderSaveRequestDto){
+    public ResponseEntity<Object> save(@Valid @RequestBody OrdOrderSaveRequestDto ordOrderSaveRequestDto){
 
         OrdOrder ordOrder = ordOrderService.saveOrdOrder(ordOrderSaveRequestDto);
 
