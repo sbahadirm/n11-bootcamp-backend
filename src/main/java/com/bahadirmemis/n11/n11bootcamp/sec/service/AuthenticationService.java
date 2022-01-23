@@ -3,7 +3,10 @@ package com.bahadirmemis.n11.n11bootcamp.sec.service;
 import com.bahadirmemis.n11.n11bootcamp.sec.dto.UserRequestDto;
 import com.bahadirmemis.n11.n11bootcamp.sec.jwt.security.EnumJwtConstant;
 import com.bahadirmemis.n11.n11bootcamp.sec.jwt.security.JwtTokenGenerator;
+import com.bahadirmemis.n11.n11bootcamp.usr.dto.UsrUserDto;
+import com.bahadirmemis.n11.n11bootcamp.usr.dto.UsrUserSaveRequestDto;
 import com.bahadirmemis.n11.n11bootcamp.usr.entity.UsrUser;
+import com.bahadirmemis.n11.n11bootcamp.usr.service.UsrUserService;
 import com.bahadirmemis.n11.n11bootcamp.usr.service.entityservice.UsrUserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,6 +31,9 @@ public class AuthenticationService {
     @Autowired
     private JwtTokenGenerator jwtTokenGenerator;
 
+    @Autowired
+    private UsrUserService usrUserService;
+
     public String login(UserRequestDto userRequestDto){
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken
@@ -42,17 +48,6 @@ public class AuthenticationService {
         return EnumJwtConstant.BEARER.getConstant() + token;
     }
 
-//    public UsrUser register(String username, String password){
-//
-//        password = passwordEncoder.encode(password);
-//
-//        UsrUser user = new UsrUser();
-//        user.setUsername(username);
-//        user.setPassword(password);
-//
-//        return userEntityService.save(user);
-//    }
-
     public void validateUserRequest(String username) {
 
         UsrUser user = userEntityService.findByUsername(username);
@@ -60,5 +55,11 @@ public class AuthenticationService {
         if (user != null){
             throw new RuntimeException("Username already in use");
         }
+    }
+
+    public UsrUserDto registerUser(UsrUserSaveRequestDto usrUserSaveRequestDto) {
+        UsrUserDto usrUserDto = usrUserService.save(usrUserSaveRequestDto);
+
+        return usrUserDto;
     }
 }
