@@ -3,10 +3,7 @@ package com.bahadirmemis.n11.n11bootcamp.bas.entity;
 import com.bahadirmemis.n11.n11bootcamp.gen.entity.BaseEntity;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
@@ -15,7 +12,8 @@ import java.math.BigDecimal;
 public class BasBasketProduct implements BaseEntity {
 
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "BasBasketProduct", sequenceName = "BAS_BASKET_PRODUCT_ID_SEQ")
+    @GeneratedValue(generator = "BasBasketProduct")
     private Long id;
 
     private Long basBasketId;

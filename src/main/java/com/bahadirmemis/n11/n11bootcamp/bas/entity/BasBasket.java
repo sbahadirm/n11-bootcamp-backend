@@ -13,7 +13,8 @@ import java.math.BigDecimal;
 public class BasBasket implements BaseEntity, Cloneable {
 
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "BasBasket", sequenceName = "BAS_BASKET_ID_SEQ")
+    @GeneratedValue(generator = "BasBasket")
     private Long id;
 
     private Long usrUserId;

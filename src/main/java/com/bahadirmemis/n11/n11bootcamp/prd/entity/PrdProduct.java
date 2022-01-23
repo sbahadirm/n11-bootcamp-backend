@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
@@ -18,17 +15,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class PrdProduct implements BaseEntity {
 
-    /**
-     * name
-     * shortName
-     * categoryId
-     * vendorUserId
-     * imageUrl
-     * price
-     * additionalDiscount
-     */
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "PrdProduct", sequenceName = "PRD_PRODUCT_ID_SEQ")
+    @GeneratedValue(generator = "PrdProduct")
     private Long id;
 
     private String name;

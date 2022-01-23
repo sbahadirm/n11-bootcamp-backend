@@ -5,10 +5,7 @@ import com.bahadirmemis.n11.n11bootcamp.gen.enums.EnumStatus;
 import com.bahadirmemis.n11.n11bootcamp.gen.enums.EnumYesNo;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "USR_PHONE")
@@ -16,7 +13,8 @@ import javax.persistence.Table;
 public class UsrPhone implements BaseEntity {
 
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "UsrPhone", sequenceName = "USR_PHONE_ID_SEQ")
+    @GeneratedValue(generator = "UsrPhone")
     private Long id;
 
     private Long userUserId;

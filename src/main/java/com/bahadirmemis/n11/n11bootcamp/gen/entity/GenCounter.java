@@ -11,7 +11,8 @@ import javax.persistence.*;
 public class GenCounter implements BaseEntity{
 
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "GenCounter", sequenceName = "GEN_COUNTER_ID_SEQ")
+    @GeneratedValue(generator = "GenCounter")
     private Long id;
 
     private Long lastNum;

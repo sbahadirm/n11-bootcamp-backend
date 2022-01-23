@@ -4,10 +4,7 @@ import com.bahadirmemis.n11.n11bootcamp.gen.entity.BaseEntity;
 import com.bahadirmemis.n11.n11bootcamp.ord.enums.EnumDeliveryStatus;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -17,7 +14,8 @@ import java.util.Date;
 public class OrdOrder implements BaseEntity {
 
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "OrdOrder", sequenceName = "ORD_ORDER_ID_SEQ")
+    @GeneratedValue(generator = "OrdOrder")
     private Long id;
 
     private Long basBasketId;
